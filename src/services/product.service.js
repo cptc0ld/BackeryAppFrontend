@@ -51,9 +51,9 @@ class ProductService {
             });
     }
 
-    editProduct(id, name, sellPrice,  desc, file) {
+    editProduct(id, name, sellPrice, desc, file) {
         const formData = new FormData()
-        if (file !== null) {
+        if (file !== null && typeof (file) === File) {
             formData.append(
                 'image',
                 file,

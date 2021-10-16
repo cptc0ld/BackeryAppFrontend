@@ -9,7 +9,6 @@ export default class ProductPageComponent extends Component {
     constructor(props) {
         super(props);
         this.editProductClicked = this.editProductClicked.bind(this)
-        this.onNameChanged = this.onNameChanged.bind(this)
         this.onPriceChanged = this.onPriceChanged.bind(this)
         this.onDescChanged = this.onDescChanged.bind(this)
         this.editProductClicked = this.editProductClicked.bind(this)
@@ -17,6 +16,7 @@ export default class ProductPageComponent extends Component {
         this.onFileChanged = this.onFileChanged.bind(this)
         this.deleteProduct = this.deleteProduct.bind(this)
         this.buyProduct = this.buyProduct.bind(this)
+        this.dontUpdate = this.dontUpdate.bind(this)
 
         this.status = {
             view: 'view',
@@ -27,13 +27,10 @@ export default class ProductPageComponent extends Component {
         this.id = ""
         this.state = {
             product: {},
+            editProduct: {},
             currentUser: null,
             isAdmin: false,
             status: this.status.view,
-            editName: "",
-            editPrice: "",
-            editDesc: "",
-            editImage: null
         }
     }
 
@@ -65,33 +62,31 @@ export default class ProductPageComponent extends Component {
         this.getProductDetails()
     }
 
-    onNameChanged(e) {
-        this.setState({
-            editName: e.target.value
-        });
-    }
-
     onPriceChanged(e) {
+        const editProduct = {...this.state.editProduct, sellPrice: e.target.value};
         this.setState({
-            editPrice: e.target.value
+            editProduct: editProduct
         });
     }
 
     onDescChanged(e) {
+        const editProduct = {...this.state.editProduct, desc: e.target.value};
         this.setState({
-            editDesc: e.target.value
+            editProduct: editProduct
         });
     }
 
     onFileChanged(e) {
+        const editProduct = {...this.state.editProduct, image: e.target.files[0]};
         this.setState({
-            editImage: e.target.files[0]
+            editProduct: editProduct
         });
     }
 
     updateProject() {
-        let {editName, editPrice, editDesc, editImage} = this.state
-        ProductService.editProduct(this.id, editName, editPrice, editDesc, editImage).then(r => {
+        let {name, sellPrice, desc, image} = this.state.editProduct
+        console.log(this.state.editProduct)
+        ProductService.editProduct(this.id, name, sellPrice, desc, image).then(r => {
                 this.setState({
                     status: this.status.view
                 })
@@ -100,11 +95,18 @@ export default class ProductPageComponent extends Component {
         )
     }
 
+    dontUpdate() {
+        this.setState({
+            status: this.status.view
+        })
+    }
+
     getProductDetails() {
         ProductService.getProductById(this.id).then(
             response => {
                 this.setState({
-                    product: response
+                    product: response,
+                    editProduct: response
                 });
             },
             error => {
@@ -166,15 +168,18 @@ export default class ProductPageComponent extends Component {
                                 case this.status.edit:
                                     return (
                                         <Stack gap={3}>
-                                            <b>Edit Name: <input type="text" onChange={this.onNameChanged}/></b>
-                                            <b>Edit Price: <input type="text" onChange={this.onPriceChanged}/></b>
-                                            <Stack><b>Edit Description: </b><input type="textarea"
-                                                                                   onChange={this.onDescChanged}/></Stack>
+                                            <b>Name: {product.name}</b>
+                                            <b>Edit Price: (leave blank to not update) <input type="text"
+                                                                                              onChange={this.onPriceChanged}/></b>
+                                            <Stack><b>Edit Description: (leave blank to not update) </b><input
+                                                type="textarea"
+                                                onChange={this.onDescChanged}/></Stack>
                                             <b>Edit Image: <input type="file" onChange={this.onFileChanged}/></b>
                                             {isAdmin && (
                                                 <Stack className="mt-2" direction="horizontal" gap={3}>
                                                     <Button variant="success" onClick={this.updateProject}>Update
                                                         product</Button>
+                                                    <Button variant="danger" onClick={this.dontUpdate}>Go back</Button>
                                                 </Stack>
                                             )}
                                         </Stack>
