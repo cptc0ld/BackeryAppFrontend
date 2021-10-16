@@ -81,6 +81,19 @@ class ProductService {
                 return error.data;
             });
     }
+
+    deleteProduct(id) {
+        return axios.delete(API_URL + "product/delete/" + id, {headers: authHeader()})
+            .then(response => {
+                if (response.data.status === 200) {
+                    return response.data.data.message;
+                }
+            })
+            .catch(error => {
+                console.log(error.data)
+                throw Error(error.response.data.error_message);
+            });
+    }
 }
 
 export default new ProductService();

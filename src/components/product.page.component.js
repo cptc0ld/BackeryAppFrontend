@@ -14,6 +14,7 @@ export default class ProductPageComponent extends Component {
         this.editProductClicked = this.editProductClicked.bind(this)
         this.updateProject = this.updateProject.bind(this)
         this.onFileChanged = this.onFileChanged.bind(this)
+        this.deleteProduct = this.deleteProduct.bind(this)
 
         this.status = {
             view: 'view',
@@ -107,6 +108,22 @@ export default class ProductPageComponent extends Component {
         );
     }
 
+    deleteProduct() {
+        ProductService.deleteProduct(this.id).then(
+            response => {
+                this.props.history.push(`/home`);
+            },
+            error => {
+                this.setState({
+                    content:
+                        (error.response && error.response.data) ||
+                        error.message ||
+                        error.toString()
+                });
+            }
+        );
+    }
+
     render() {
         let {product, isAdmin} = this.state
         return (
@@ -128,7 +145,7 @@ export default class ProductPageComponent extends Component {
                                                 <Stack className="mt-2" direction="horizontal" gap={3}>
                                                     <Button variant="primary" onClick={this.editProductClicked}>Edit
                                                         product</Button>
-                                                    <Button variant="danger">Delete product</Button>
+                                                    <Button variant="danger" onClick={this.deleteProduct}>Delete product</Button>
                                                 </Stack>
                                             )}
                                         </Stack>
