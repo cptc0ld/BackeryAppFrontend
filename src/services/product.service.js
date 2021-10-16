@@ -109,7 +109,7 @@ class ProductService {
             });
     }
 
-    addIngredients(name, costPrice, file) {
+    addIngredients(name, costPrice, quantity, file) {
         console.log(name, costPrice, file)
         const formData = new FormData()
         if (file !== null) {
@@ -128,7 +128,13 @@ class ProductService {
         if (costPrice !== '') {
             formData.append(
                 'costPrice',
-                costPrice
+                costPrice.toInt
+            )
+        }
+        if (quantity !== '') {
+            formData.append(
+                'quantity',
+                quantity.toInt
             )
         }
         return axios
@@ -154,6 +160,64 @@ class ProductService {
             })
             .catch(error => {
                 throw Error(error.response.data.data.error_message)
+            });
+    }
+
+    editIngredient(id, name, quantity, costPrice, file) {
+        const formData = new FormData()
+        if (file !== null && (typeof (file) === File)) {
+            formData.append(
+                'image',
+                file,
+                file.name
+            )
+        }
+        if (id !== '') {
+            formData.append(
+                'id',
+                id
+            )
+        }
+        if (name !== '') {
+            formData.append(
+                'name',
+                name
+            )
+        }
+        if (quantity !== '') {
+            formData.append(
+                'quantity',
+                quantity
+            )
+        }
+        if (costPrice !== '') {
+            formData.append(
+                'costPrice',
+                costPrice
+            )
+        }
+        return axios.put(API_URL + "ingredient/update", formData, {headers: authHeader()})
+            .then(response => {
+                if (response.data.status === 200) {
+                    return response.data.data.message;
+                }
+            })
+            .catch(error => {
+                console.log(error.data)
+                return error.data;
+            });
+    }
+
+    deleteIngredient(id) {
+        return axios.delete(API_URL + "ingredient/delete/" + id, {headers: authHeader()})
+            .then(response => {
+                if (response.data.status === 200) {
+                    return response.data.data.message;
+                }
+            })
+            .catch(error => {
+                console.log(error.data)
+                throw Error(error.response.data.error_message);
             });
     }
 

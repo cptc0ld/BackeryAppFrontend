@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Card, Col, Container, Form, Image, Row} from "react-bootstrap";
+import {Button, Col, Container, Image, Row} from "react-bootstrap";
 import ProductService from "../services/product.service";
 import AuthService from "../services/auth.service";
 import Stack from "react-bootstrap/cjs/Stack";
@@ -9,12 +9,14 @@ export default class IngredientPageComponent extends Component {
         super(props);
         this.editProductClicked = this.editProductClicked.bind(this)
         this.onNameChanged = this.onNameChanged.bind(this)
-        this.onPriceChanged = this.onPriceChanged.bind(this)
-        this.onDescChanged = this.onDescChanged.bind(this)
+        this.onQuantityIncrease = this.onQuantityIncrease.bind(this)
+        this.onQuantityDecrease = this.onQuantityDecrease.bind(this)
+        this.onCostPriceChanged = this.onCostPriceChanged.bind(this)
         this.editProductClicked = this.editProductClicked.bind(this)
         this.updateProject = this.updateProject.bind(this)
         this.onFileChanged = this.onFileChanged.bind(this)
         this.deleteProduct = this.deleteProduct.bind(this)
+        this.dontUpdate = this.dontUpdate.bind(this)
 
         this.status = {
             view: 'view',
@@ -25,12 +27,13 @@ export default class IngredientPageComponent extends Component {
         this.id = ""
         this.state = {
             product: {},
+            editProduct: {},
             currentUser: null,
             isAdmin: false,
             status: this.status.view,
             editName: "",
             editPrice: "",
-            editDesc: "",
+            editCostPrice: "",
             editImage: null
         }
     }
@@ -56,32 +59,44 @@ export default class IngredientPageComponent extends Component {
     }
 
     onNameChanged(e) {
+        const editProduct = {...this.state.editProduct, name: e.target.value};
         this.setState({
-            editName: e.target.value
+            editProduct: editProduct
         });
     }
 
-    onPriceChanged(e) {
+    onQuantityIncrease() {
+        const editProduct = {...this.state.editProduct, quantity: this.state.editProduct.quantity + 1};
         this.setState({
-            editPrice: e.target.value
+            editProduct: editProduct
         });
     }
 
-    onDescChanged(e) {
+    onQuantityDecrease(e) {
+        const editProduct = {...this.state.editProduct, quantity: this.state.editProduct.quantity - 1};
         this.setState({
-            editDesc: e.target.value
+            editProduct: editProduct
+        });
+    }
+
+    onCostPriceChanged(e) {
+        const editProduct = {...this.state.editProduct, costPrice: e.target.value};
+        this.setState({
+            editProduct: editProduct
         });
     }
 
     onFileChanged(e) {
+        const editProduct = {...this.state.editProduct, image: e.target.files[0]};
         this.setState({
-            editImage: e.target.files[0]
+            editProduct: editProduct
         });
     }
 
     updateProject() {
-        let {editName, editPrice, editDesc, editImage} = this.state
-        ProductService.editProduct(this.id, editName, editImage).then(r => {
+        let {name, costPrice, image, quantity} = this.state.editProduct
+        console.log(this.state.editProduct)
+        ProductService.editIngredient(this.id, name, quantity, costPrice, image).then(r => {
                 this.setState({
                     status: this.status.view
                 })
@@ -90,11 +105,18 @@ export default class IngredientPageComponent extends Component {
         )
     }
 
+    dontUpdate(){
+        this.setState({
+            status: this.status.view
+        })
+    }
+
     getProductDetails() {
         ProductService.getIngredientById(this.id).then(
             response => {
                 this.setState({
-                    product: response
+                    product: response,
+                    editProduct: response
                 });
             },
             error => {
@@ -109,9 +131,9 @@ export default class IngredientPageComponent extends Component {
     }
 
     deleteProduct() {
-        ProductService.deleteProduct(this.id).then(
+        ProductService.deleteIngredient(this.id).then(
             response => {
-                this.props.history.push(`/home`);
+                this.props.history.push(`/ingredients`);
             },
             error => {
                 this.setState({
@@ -125,7 +147,7 @@ export default class IngredientPageComponent extends Component {
     }
 
     render() {
-        let {product, isAdmin} = this.state
+        let {product, isAdmin, editProduct} = this.state
         return (
             <Container className='p-4 bg-light border'>
                 <Row>
@@ -139,13 +161,14 @@ export default class IngredientPageComponent extends Component {
                                     return (
                                         <Stack gap={3}>
                                             <b>Name: {product.name}</b>
-                                            <b>Price: {product.price}</b>
-                                            <b>Description: {product.desc}</b>
+                                            <b>Quantity: {product.quantity}</b>
+                                            <b>Cost Price: {product.costPrice}</b>
                                             {isAdmin && (
                                                 <Stack className="mt-2" direction="horizontal" gap={3}>
                                                     <Button variant="primary" onClick={this.editProductClicked}>Edit
                                                         product</Button>
-                                                    <Button variant="danger" onClick={this.deleteProduct}>Delete product</Button>
+                                                    <Button variant="danger" onClick={this.deleteProduct}>Delete
+                                                        product</Button>
                                                 </Stack>
                                             )}
                                         </Stack>
@@ -153,15 +176,21 @@ export default class IngredientPageComponent extends Component {
                                 case this.status.edit:
                                     return (
                                         <Stack gap={3}>
-                                            <b>Edit Name: <input type="text" onChange={this.onNameChanged}/></b>
-                                            <b>Edit Price: <input type="text" onChange={this.onPriceChanged}/></b>
-                                            <Stack><b>Edit Description: </b><input type="textarea"
-                                                                                   onChange={this.onDescChanged}/></Stack>
-                                            <b>Edit Image: <input type="file" onChange={this.onFileChanged}/></b>
+                                            <b>Name: {product.name}</b>
+                                            <b>Edit quantity:{'    '}
+                                                <Button variant="success" size="sm"
+                                                        onClick={this.onQuantityIncrease}> + </Button>{'    '}{editProduct.quantity}{'    '}
+                                                <Button variant="danger" size="sm"
+                                                        onClick={this.onQuantityDecrease}> - </Button>
+                                            </b>
+                                            <b>Edit cost price: (leave blank to not update) <input type="text"
+                                                                                                   onChange={this.onCostPriceChanged}/></b>
+                                            <b>Edit image: <input type="file" onChange={this.onFileChanged}/></b>
                                             {isAdmin && (
                                                 <Stack className="mt-2" direction="horizontal" gap={3}>
                                                     <Button variant="success" onClick={this.updateProject}>Update
                                                         product</Button>
+                                                    <Button variant="danger" onClick={this.dontUpdate}>Go back</Button>
                                                 </Stack>
                                             )}
                                         </Stack>

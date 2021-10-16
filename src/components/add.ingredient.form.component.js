@@ -12,12 +12,14 @@ export default class AddIngredientFormComponent extends Component {
         this.onChangeCostPrice = this.onChangeCostPrice.bind(this)
         this.fileChangedHandler = this.fileChangedHandler.bind(this)
         this.handleRegister = this.handleRegister.bind(this)
+        this.onChangeQuantity = this.onChangeQuantity.bind(this)
         this.state = {
             successful: false,
             message: "",
             name: "",
             costPrice: "",
-            image: null
+            image: null,
+            quantity: ""
         };
     }
 
@@ -33,6 +35,12 @@ export default class AddIngredientFormComponent extends Component {
         });
     }
 
+    onChangeQuantity(e) {
+        this.setState({
+            quantity: e.target.value
+        });
+    }
+
     fileChangedHandler(event) {
         console.log(event.target.files[0])
         this.setState({
@@ -41,12 +49,12 @@ export default class AddIngredientFormComponent extends Component {
     }
 
     handleRegister(e) {
-        let {name, costPrice, image} = this.state
+        let {name, costPrice, quantity,  image} = this.state
         e.preventDefault();
-        console.log(name, costPrice, image)
         ProductService.addIngredients(
             name,
             costPrice,
+            quantity,
             image
         )
             .then(
@@ -99,9 +107,21 @@ export default class AddIngredientFormComponent extends Component {
                             <Input
                                 type="text"
                                 className="form-control"
+                                name="costPrice"
+                                value={this.state.costPrice}
+                                onChange={this.onChangeCostPrice}
+                            />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col htmlFor="name">Quantity</Col>
+                        <Col className="">
+                            <Input
+                                type="text"
+                                className="form-control"
                                 name="quantity"
                                 value={this.state.quantity}
-                                onChange={this.onChangeCostPrice}
+                                onChange={this.onChangeQuantity}
                             />
                         </Col>
                     </Row>

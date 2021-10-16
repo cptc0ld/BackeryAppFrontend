@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 
 import ProductService from "../services/product.service";
-import {Button, Card, Col, Container, Row} from "react-bootstrap";
-import ProductCardComponent from "./product.card.component";
+import {Col, Container, Row} from "react-bootstrap";
+import IngredientCardComponent from "./ingredient.card.component";
 
 export default class IngredientsPageComponent extends Component {
     constructor(props) {
@@ -44,7 +44,7 @@ export default class IngredientsPageComponent extends Component {
                     <Row>
                         {this.state.ingredients.map((ingredient) => (
                             <Col>
-                                <ProductCardComponent product={ingredient} onClick={this.handleIngredientClick}/>
+                                <IngredientCardComponent ingredient={ingredient} onClick={this.handleIngredientClick}/>
                             </Col>
                         ))}
                     </Row>

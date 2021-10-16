@@ -3,37 +3,29 @@ import {Card, Container} from "react-bootstrap";
 import '../static/main.css'
 import '../static/product.css'
 
-export default class ProductCardComponent extends Component {
+export default class IngredientCardComponent extends Component {
     constructor(props) {
         super(props);
         this.onTrigger = this.onTrigger.bind(this)
     }
 
     onTrigger = (event) => {
-        const {product, onClick} = this.props
-        onClick(product.id);
+        const {ingredient, onClick} = this.props
+        onClick(ingredient.id);
         event.preventDefault();
     }
 
-    getDescString(desc) {
-        if (desc.length > 40) {
-            return (desc.substring(0, 40) + "...")
-        } else {
-            return desc
-        }
-    }
-
     render() {
-        const {product} = this.props
+        const {ingredient} = this.props
         return (
             <Card className="pointer product-card" onClick={this.onTrigger}>
-                <Card.Img className="product-card-image" variant="top" src={product.image}/>
+                <Card.Img className="product-card-image" variant="top" src={ingredient.image}/>
                 <Card.Body>
                     <Container className="product-card-body">
-                        <Card.Title><u>{product.name}</u></Card.Title>
+                        <Card.Title><u>{ingredient.name}</u></Card.Title>
                         <Card.Text>
-                            <p> {this.getDescString(product.desc)}</p>
-                            <p> Price: {product.sellPrice}/- </p>
+                            <p> Price: {ingredient.costPrice}/- </p>
+                            <p> Quantity present: {ingredient.quantity}/- </p>
                         </Card.Text>
                     </Container>
                 </Card.Body>
