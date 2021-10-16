@@ -15,6 +15,7 @@ export default class AddProductFormComponent extends Component {
         this.handleListChange = this.handleListChange.bind(this);
         this.onChangeQuantity = this.onChangeQuantity.bind(this)
         this.onChangeSellPrice = this.onChangeSellPrice.bind(this)
+        this.onChangeDesc = this.onChangeDesc.bind(this)
         this.state = {
             name: "",
             successful: false,
@@ -46,14 +47,19 @@ export default class AddProductFormComponent extends Component {
         });
     }
 
+    onChangeDesc(e) {
+        this.setState({
+            desc: e.target.value
+        });
+    }
+
     handleAddIngredients(e) {
         e.preventDefault();
-        let {selectedIngredient, ingredientID, ingredientName, quantity, sellPrice} = this.state;
+        let {selectedIngredient, ingredientID, ingredientName, quantity} = this.state;
         selectedIngredient.push({
             "id": ingredientID,
             "name": ingredientName,
             "quantityPresent": quantity,
-            "sellPrice": sellPrice
         });
         this.setState({selectedIngredient: selectedIngredient});
     }
@@ -145,6 +151,28 @@ export default class AddProductFormComponent extends Component {
                         /></Col>
                     </Row>
 
+                    <Row className="">
+                        <Col htmlFor="name">Sell Price</Col>
+                        <Col><Input
+                            type="text"
+                            className="form-control"
+                            name="sellPrice"
+                            value={this.state.sellPrice}
+                            onChange={this.onChangeSellPrice}
+                        /></Col>
+                    </Row>
+
+                    <Row className="">
+                        <Col htmlFor="name">Add Description</Col>
+                        <Col><Input
+                            type="text"
+                            className="form-control"
+                            name="desc"
+                            value={this.state.desc}
+                            onChange={this.onChangeDesc}
+                        /></Col>
+                    </Row>
+
                     <Row>
                         <Col className="">
                             Pick Ingredients:
@@ -171,15 +199,6 @@ export default class AddProductFormComponent extends Component {
                             />
                         </Col>
                         <Col className="">
-                            <Input
-                                type="text"
-                                className="form-control"
-                                name="sellPrice"
-                                value={this.state.sellPrice}
-                                onChange={this.onChangeSellPrice}
-                            />
-                        </Col>
-                        <Col className="">
                             <Button form-control onClick={this.handleAddIngredients}>Add Ingredients</Button>
                         </Col>
                     </Row>
@@ -195,7 +214,6 @@ export default class AddProductFormComponent extends Component {
                                     <th>Action</th>
                                     <th>Name</th>
                                     <th>Quantity</th>
-                                    <th>Selling Price</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -207,7 +225,6 @@ export default class AddProductFormComponent extends Component {
                                             </td>
                                             <td>{item.name}</td>
                                             <td>{item.quantityPresent}</td>
-                                            <td>{item.sellPrice}</td>
                                         </tr>,
                                     ];
                                 })}

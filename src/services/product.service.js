@@ -8,7 +8,7 @@ class ProductService {
         const data = {
             "product": {
                 'name': name,
-                'desc': 'desc',
+                'desc': desc,
                 'sellPrice': sellPrice
             },
             "ingredients": list_of_ingredient
@@ -53,7 +53,7 @@ class ProductService {
 
     editProduct(id, name, sellPrice, desc, file) {
         const formData = new FormData()
-        if (file !== null && typeof (file) === File) {
+        if (file !== null && typeof (file) !== "string") {
             formData.append(
                 'image',
                 file,
@@ -165,7 +165,7 @@ class ProductService {
 
     editIngredient(id, name, quantity, costPrice, file) {
         const formData = new FormData()
-        if (file !== null && (typeof (file) === File)) {
+        if (file !== null && typeof (file) !== "string") {
             formData.append(
                 'image',
                 file,
