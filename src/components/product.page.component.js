@@ -3,6 +3,7 @@ import {Button, Card, Col, Container, Form, Image, Row} from "react-bootstrap";
 import ProductService from "../services/product.service";
 import AuthService from "../services/auth.service";
 import Stack from "react-bootstrap/cjs/Stack";
+import OrderService from "../services/order.service"
 
 export default class ProductPageComponent extends Component {
     constructor(props) {
@@ -15,6 +16,7 @@ export default class ProductPageComponent extends Component {
         this.updateProject = this.updateProject.bind(this)
         this.onFileChanged = this.onFileChanged.bind(this)
         this.deleteProduct = this.deleteProduct.bind(this)
+        this.buyProduct = this.buyProduct.bind(this)
 
         this.status = {
             view: 'view',
@@ -33,6 +35,14 @@ export default class ProductPageComponent extends Component {
             editDesc: "",
             editImage: null
         }
+    }
+
+    buyProduct() {
+        let {product} = this.state
+        OrderService.createOrder(product.id)
+            .then(r => {
+                console.log("ordered")
+            })
     }
 
     editProductClicked() {
@@ -141,11 +151,14 @@ export default class ProductPageComponent extends Component {
                                             <b>Name: {product.name}</b>
                                             <b>Price: {product.price}</b>
                                             <b>Description: {product.desc}</b>
+                                            <Button variant="success" onClick={this.buyProduct}>
+                                                Buy Now</Button>
                                             {isAdmin && (
                                                 <Stack className="mt-2" direction="horizontal" gap={3}>
                                                     <Button variant="primary" onClick={this.editProductClicked}>Edit
                                                         product</Button>
-                                                    <Button variant="danger" onClick={this.deleteProduct}>Delete product</Button>
+                                                    <Button variant="danger" onClick={this.deleteProduct}>Delete
+                                                        product</Button>
                                                 </Stack>
                                             )}
                                         </Stack>
