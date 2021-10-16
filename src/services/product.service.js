@@ -94,6 +94,41 @@ class ProductService {
                 throw Error(error.response.data.error_message);
             });
     }
+
+    addIngredients(name, costPrice, file) {
+        console.log(name, costPrice, file)
+        const formData = new FormData()
+        if (file !== null) {
+            formData.append(
+                'image',
+                file,
+                file.name
+            )
+        }
+        if (name !== '') {
+            formData.append(
+                'name',
+                name
+            )
+        }
+        if (costPrice !== '') {
+            formData.append(
+                'costPrice',
+                costPrice
+            )
+        }
+        return axios
+            .post(API_URL + "ingredient/add", formData, {headers: authHeader()})
+            .then(response => {
+                if (response.data.status === 200) {
+                    return response.data.data;
+                }
+            })
+            .catch(error => {
+                throw Error(error.response.data.data.error_message)
+            });
+    }
+
 }
 
 export default new ProductService();

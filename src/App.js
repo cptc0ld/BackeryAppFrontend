@@ -12,6 +12,8 @@ import Profile from "./components/profile.component";
 import BoardUser from "./components/board-user.component";
 import BoardAdmin from "./components/board-admin.component";
 import ProductPageComponent from "./components/product.page.component";
+import IngredientsPageComponent from "./components/ingredients.page.component";
+import IngredientPageComponent from "./components/ingredient.page.component";
 
 class App extends Component {
     constructor(props) {
@@ -111,6 +113,8 @@ class App extends Component {
                         <Route path="/user" component={BoardUser}/>
                         <Route path="/admin" component={BoardAdmin}/>
                         <Route path="/product/:id" component={ProductPageComponent}/>
+                        <Route exact path="/ingredients" component={IngredientsPageComponent}/>
+                        <Route path="/ingredient/:id" component={IngredientPageComponent}/>
                     </Switch>
                 </div>
             </div>
