@@ -93,9 +93,10 @@ export default class AddProductFormComponent extends Component {
             .then(
                 response => {
                     this.setState({
-                        message: response,
+                        message: response.product.name + " Added",
                         successful: true
                     });
+                    this.props.onSuccess(response.product)
                 },
                 error => {
                     console.log(JSON.stringify(error))
