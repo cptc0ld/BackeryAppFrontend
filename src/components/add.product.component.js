@@ -52,7 +52,10 @@ export default class FormAddProduct extends Component {
         e.preventDefault();
         let list_of_ingredients = [];
         this.state.selectedIngredient.forEach(ingredient =>{
-            list_of_ingredients.push(ingredient.id)
+            let ingredientObj = {}
+            ingredientObj['ingredient'] = ingredient.id
+            ingredientObj['quantity'] = ingredient.quantityPresent
+            list_of_ingredients.push(ingredientObj)
         })
         ProductService.addProduct(
             this.state.name,

@@ -10,7 +10,7 @@ class AuthService {
                 password
             })
             .then(response => {
-                if(response.data.status === 200){
+                if (response.data.status === 200) {
                     if (response.data.data.token) {
                         localStorage.setItem("user", JSON.stringify(response.data.data));
                     }
@@ -19,7 +19,7 @@ class AuthService {
                 }
             })
             .catch(error => {
-                throw Error(error.response.data.data.error_message)
+                throw Error(error.response.data)
             });
     }
 
@@ -35,21 +35,22 @@ class AuthService {
             password2
         })
             .then(response => {
-            if(response.data.status === 200){
-                if (response.data.data.token) {
-                    localStorage.setItem("user", JSON.stringify(response.data.data));
-                }
+                if (response.data.status === 200) {
+                    if (response.data.data.token) {
+                        localStorage.setItem("user", JSON.stringify(response.data.data));
+                    }
 
-                return response.data.data;
-            }
-        })
+                    return response.data.data;
+                }
+            })
             .catch(error => {
                 throw Error(error.response.data.data.error_message)
-        });
+            });
     }
 
     getCurrentUser() {
-        return JSON.parse(localStorage.getItem('user'));;
+        return JSON.parse(localStorage.getItem('user'));
+        ;
     }
 }
 

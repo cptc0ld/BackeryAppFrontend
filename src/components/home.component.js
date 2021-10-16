@@ -1,26 +1,34 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 
 import UserService from "../services/user.service";
+import {Button, Card, Col, Container, Row} from "react-bootstrap";
+import ProductCardComponent from "./product.card.component";
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
-
+        this.handleProductClick = this.handleProductClick.bind(this)
         this.state = {
-            content: ""
+            error: "",
+            products: []
         };
+    }
+
+    handleProductClick(e) {
+        this.props.history.push(`/product/${e}`);
+        window.location.reload();
     }
 
     componentDidMount() {
         UserService.getPublicContent().then(
             response => {
                 this.setState({
-                    content: response.data.data
+                    products: response
                 });
             },
             error => {
                 this.setState({
-                    content:
+                    error:
                         (error.response && error.response.data) ||
                         error.message ||
                         error.toString()
@@ -32,9 +40,15 @@ export default class Home extends Component {
     render() {
         return (
             <div className="container">
-                <header className="jumbotron">
-                    <h3>{JSON.stringify(this.state.content)}</h3>
-                </header>
+                <Container>
+                    <Row>
+                        {this.state.products.map((product) => (
+                            <Col>
+                                <ProductCardComponent product={product} onClick={this.handleProductClick}/>
+                            </Col>
+                        ))}
+                    </Row>
+                </Container>
             </div>
         );
     }
