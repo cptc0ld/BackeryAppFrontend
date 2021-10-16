@@ -9,11 +9,11 @@ import Login from "./components/login.component";
 import Register from "./components/register.component";
 import Home from "./components/home.component";
 import Profile from "./components/profile.component";
-import BoardUser from "./components/board-user.component";
 import BoardAdmin from "./components/board-admin.component";
 import ProductPageComponent from "./components/product.page.component";
 import IngredientsPageComponent from "./components/ingredients.page.component";
 import IngredientPageComponent from "./components/ingredient.page.component";
+import {Nav, Navbar} from "react-bootstrap";
 
 class App extends Component {
     constructor(props) {
@@ -46,63 +46,49 @@ class App extends Component {
 
         return (
             <div>
-                <nav className="navbar navbar-expand navbar-dark bg-dark">
-                    <Link to={"/"} className="navbar-brand">
-                        bezKoder
-                    </Link>
-                    <div className="navbar-nav mr-auto">
-                        <li className="nav-item">
-                            <Link to={"/home"} className="nav-link">
-                                Home
-                            </Link>
-                        </li>
-
-                        {showAdminBoard && (
-                            <li className="nav-item">
-                                <Link to={"/admin"} className="nav-link">
-                                    Admin Board
-                                </Link>
-                            </li>
+                <Navbar bg="dark" variant="dark">
+                    <Nav className="container-fluid">
+                        <Nav>
+                            <Nav.Item className="ms-4">
+                                <Navbar.Brand as={Link} to="/">bezKoder</Navbar.Brand>
+                            </Nav.Item>
+                            <Nav.Item className="ms-4">
+                                <Nav.Link as={Link} to="/home">Home</Nav.Link>
+                            </Nav.Item>
+                            {showAdminBoard && (
+                                <Nav.Item className="ms-4">
+                                    <Nav.Link as={Link} to="/admin">Admin Board</Nav.Link>
+                                </Nav.Item>
+                            )}
+                            {currentUser && (
+                                <Nav.Item className="ms-4">
+                                    <Nav.Link as={Link} to="/profile">User</Nav.Link>
+                                </Nav.Item>
+                            )}
+                        </Nav>
+                        {currentUser ? (
+                            <Nav>
+                                <Nav.Item  className="me-4">
+                                    <Nav.Link as={Link} to="/profile">{currentUser.username}</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item  className="me-4">
+                                    <a href="/login" className="nav-link" onClick={this.logOut}>
+                                        Log Out
+                                    </a>
+                                </Nav.Item>
+                            </Nav>
+                        ) : (
+                            <Nav>
+                                <Nav.Item  className="me-4">
+                                    <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item  className="me-4">
+                                    <Nav.Link as={Link} to="/register">Sign Up</Nav.Link>
+                                </Nav.Item>
+                            </Nav>
                         )}
-
-                        {currentUser && (
-                            <li className="nav-item">
-                                <Link to={"/user"} className="nav-link">
-                                    User
-                                </Link>
-                            </li>
-                        )}
-                    </div>
-
-                    {currentUser ? (
-                        <div className="navbar-nav ml-auto">
-                            <li className="nav-item">
-                                <Link to={"/profile"} className="nav-link">
-                                    {currentUser.username}
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <a href="/login" className="nav-link" onClick={this.logOut}>
-                                    LogOut
-                                </a>
-                            </li>
-                        </div>
-                    ) : (
-                        <div className="navbar-nav ml-auto">
-                            <li className="nav-item">
-                                <Link to={"/login"} className="nav-link">
-                                    Login
-                                </Link>
-                            </li>
-
-                            <li className="nav-item">
-                                <Link to={"/register"} className="nav-link">
-                                    Sign Up
-                                </Link>
-                            </li>
-                        </div>
-                    )}
-                </nav>
+                    </Nav>
+                </Navbar>
 
                 <div className="container mt-3">
                     <Switch>
@@ -110,7 +96,6 @@ class App extends Component {
                         <Route exact path="/login" component={Login}/>
                         <Route exact path="/register" component={Register}/>
                         <Route exact path="/profile" component={Profile}/>
-                        <Route path="/user" component={BoardUser}/>
                         <Route path="/admin" component={BoardAdmin}/>
                         <Route path="/product/:id" component={ProductPageComponent}/>
                         <Route exact path="/ingredients" component={IngredientsPageComponent}/>
