@@ -19,7 +19,7 @@ export default class UploadImageComponent extends Component {
 
     handleRegister() {
         let {product} = this.props
-        ProductService.uploadImage(product.id, product.name, this.state.file)
+        ProductService.editProduct(product.id, product.name, this.state.file)
     }
 
     fileChangedHandler = (event) => {

@@ -49,21 +49,27 @@ class ProductService {
             });
     }
 
-    uploadImage(id, name, file) {
+    editProduct(id, name, file) {
         const formData = new FormData()
-        formData.append(
-            'image',
-            file,
-            file.name
-        )
-        formData.append(
-            'id',
-            id
-        )
-        formData.append(
-            'name',
-            name
-        )
+        if (file !== null) {
+            formData.append(
+                'image',
+                file,
+                file.name
+            )
+        }
+        if (id !== '') {
+            formData.append(
+                'id',
+                id
+            )
+        }
+        if (name !== '') {
+            formData.append(
+                'name',
+                name
+            )
+        }
         return axios.put(API_URL + "product/update", formData, {headers: authHeader()})
             .then(response => {
                 if (response.data.status === 200) {
