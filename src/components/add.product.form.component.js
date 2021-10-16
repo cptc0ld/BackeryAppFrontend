@@ -24,6 +24,7 @@ export default class AddProductFormComponent extends Component {
             sellPrice: "",
             ingredientID: "",
             ingredientName: "",
+            desc: ""
         };
     }
 
@@ -88,6 +89,8 @@ export default class AddProductFormComponent extends Component {
         })
         ProductService.addProduct(
             this.state.name,
+            this.state.desc,
+            this.state.sellPrice,
             list_of_ingredients
         )
             .then(

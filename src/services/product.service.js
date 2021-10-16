@@ -4,10 +4,12 @@ import authHeader from "./auth-header";
 const API_URL = "http://localhost:8000/api/product/";
 
 class ProductService {
-    addProduct(name, list_of_ingredient) {
+    addProduct(name, desc, sellPrice, list_of_ingredient) {
         const data = {
             "product": {
-                'name': name
+                'name': name,
+                'desc': 'desc',
+                'sellPrice': sellPrice
             },
             "ingredients": list_of_ingredient
         }
@@ -49,7 +51,7 @@ class ProductService {
             });
     }
 
-    editProduct(id, name, file) {
+    editProduct(id, name, sellPrice,  desc, file) {
         const formData = new FormData()
         if (file !== null) {
             formData.append(
@@ -68,6 +70,18 @@ class ProductService {
             formData.append(
                 'name',
                 name
+            )
+        }
+        if (desc !== '') {
+            formData.append(
+                'desc',
+                desc
+            )
+        }
+        if (sellPrice !== '') {
+            formData.append(
+                'sellPrice',
+                sellPrice
             )
         }
         return axios.put(API_URL + "product/update", formData, {headers: authHeader()})

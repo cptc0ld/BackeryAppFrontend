@@ -91,7 +91,7 @@ export default class ProductPageComponent extends Component {
 
     updateProject() {
         let {editName, editPrice, editDesc, editImage} = this.state
-        ProductService.editProduct(this.id, editName, editImage).then(r => {
+        ProductService.editProduct(this.id, editName, editPrice, editDesc, editImage).then(r => {
                 this.setState({
                     status: this.status.view
                 })
@@ -149,7 +149,7 @@ export default class ProductPageComponent extends Component {
                                     return (
                                         <Stack gap={3}>
                                             <b>Name: {product.name}</b>
-                                            <b>Price: {product.price}</b>
+                                            <b>Price: {product.sellPrice}</b>
                                             <b>Description: {product.desc}</b>
                                             <Button variant="success" onClick={this.buyProduct}>
                                                 Buy Now</Button>
