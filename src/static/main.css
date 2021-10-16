@@ -1,0 +1,7 @@
+.pointer {
+    cursor: pointer;
+    transition: 0.3s;
+}
+.pointer:hover {
+    background: lightgray;
+}

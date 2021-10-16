@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import {Button, Card, Col} from "react-bootstrap";
-import AuthService from "../services/auth.service";
-import {Link} from "react-router-dom";
+import {Button, Card, Col, Container, Row} from "react-bootstrap";
+import '../static/main.css'
+import '../static/product.css'
 
 export default class ProductCardComponent extends Component {
     constructor(props) {
@@ -14,18 +14,30 @@ export default class ProductCardComponent extends Component {
         onClick(product.id);
         event.preventDefault();
     }
+
+    getDescString(desc) {
+        if (desc.length > 40) {
+            return (desc.substring(0, 40) + "...")
+        } else {
+            return desc
+        }
+    }
+
     render() {
-        const {product, onClick} = this.props
+        const {product} = this.props
         return (
-            <Card style={{width: '18rem'}}>
-                <Card.Img variant="top" src={product.image}/>
+            <Card className="pointer product-card" onClick={this.onTrigger}>
+                <Card.Img className="product-card-image" variant="top" src={product.image}/>
                 <Card.Body>
-                    <Card.Title>{product.id}</Card.Title>
-                    <Card.Text>
-                        {product.name}
-                    </Card.Text>
-                    <Button variant="primary" onClick={this.onTrigger}>Details</Button>
+                    <Container className="product-card-body">
+                        <Card.Title><u>{product.name}</u></Card.Title>
+                        <Card.Text>
+                            <p> {this.getDescString(product.desc)}</p>
+                            <p> Price: {product.sellPrice}/- </p>
+                        </Card.Text>
+                    </Container>
                 </Card.Body>
+                <Card.Footer className="text-muted text-center">Click for more details</Card.Footer>
             </Card>
         );
     }
