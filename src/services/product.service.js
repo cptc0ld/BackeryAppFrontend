@@ -129,6 +129,20 @@ class ProductService {
             });
     }
 
+
+    getIngredientById(ID) {
+        return axios
+            .get(API_URL + "ingredient/" + ID, {headers: authHeader()})
+            .then(response => {
+                if (response.data.status === 200) {
+                    return response.data.data.ingredient;
+                }
+            })
+            .catch(error => {
+                throw Error(error.response.data.data.error_message)
+            });
+    }
+
 }
 
 export default new ProductService();

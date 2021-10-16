@@ -91,7 +91,7 @@ export default class IngredientPageComponent extends Component {
     }
 
     getProductDetails() {
-        ProductService.getProductById(this.id).then(
+        ProductService.getIngredientById(this.id).then(
             response => {
                 this.setState({
                     product: response
