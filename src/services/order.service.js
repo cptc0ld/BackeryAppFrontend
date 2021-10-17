@@ -39,7 +39,8 @@ class OrderService {
             .post(API_URL + "create", data,{headers: authHeader()})
             .then(response => {
                 if (response.data.status === 200) {
-                    return response.data.data.order;
+                    console.log(response.data.data)
+                    return response.data.data;
                 }
             })
             .catch(error => {

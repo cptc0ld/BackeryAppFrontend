@@ -1,18 +1,18 @@
 import React from "react";
-import { Redirect, Route } from "react-router-dom";
+import {Redirect, Route} from "react-router-dom";
 
-function AdminProtectedRoute({ component: Component, ...restOfProps }) {
+function AdminProtectedRoute({component: Component, ...restOfProps}) {
     let isAdmin = false
-    const user = localStorage.getItem("user");
-    if(!(user == null)){
+    let user = localStorage.getItem("user");
+    if (!(user == null)) {
+        user = JSON.parse(user)
         isAdmin = user.is_admin
     }
-
     return (
         <Route
             {...restOfProps}
             render={(props) =>
-                isAdmin ? <Component {...props} /> : <Redirect to="/page_not_found" />
+                isAdmin ? <Component {...props} /> : <Redirect to="/page_not_found"/>
             }
         />
     );

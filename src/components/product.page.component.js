@@ -38,7 +38,9 @@ export default class ProductPageComponent extends Component {
         let {product} = this.state
         OrderService.createOrder(product.id)
             .then(r => {
-                console.log("ordered")
+                console.log(r)
+                this.props.history.push('/order/bill/'+r.id)
+                window.location.reload()
             })
     }
 
@@ -110,12 +112,8 @@ export default class ProductPageComponent extends Component {
                 });
             },
             error => {
-                this.setState({
-                    content:
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString()
-                });
+                this.props.history.push('/page_not_found')
+                window.location.reload()
             }
         );
     }
@@ -190,7 +188,7 @@ export default class ProductPageComponent extends Component {
                                     )
                                 case this.status.delete:
                                     return (
-                                        <div>You are a Manager.</div>
+                                        <div/>
                                     )
                                 default:
                                     return (

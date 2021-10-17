@@ -3,6 +3,9 @@ import {Button, Card, Col, Container, Image, Row} from "react-bootstrap";
 import '../static/order.css';
 import Stack from "react-bootstrap/cjs/Stack";
 import OrderService from '../services/order.service'
+import Form from "react-validation/build/form";
+import Input from "react-validation/build/input";
+import CheckButton from "react-validation/build/button";
 
 export default class BillComponent extends Component {
 
@@ -16,11 +19,14 @@ export default class BillComponent extends Component {
 
     componentDidMount() {
         OrderService.getOrderById(this.props.match.params.id).then(r => {
-                console.log(r)
                 this.setState({
                     order: r,
                     successful: true
                 })
+            },
+            error => {
+                this.props.history.push('/page_not_found')
+                window.location.reload()
             }
         )
     }
@@ -33,36 +39,35 @@ export default class BillComponent extends Component {
     render() {
         let {order, successful} = this.state
         return (
-            <Container>
+            <div className="col-md-12">
                 <Row className="text-center p-5 bg-dark rounded-2">
-                    <h1 className="text-light">Bill</h1>
+                    <h1 className="text-light">Bill for order# {order.id}</h1>
                 </Row>
-                {successful && (
-                    <Card>
-                        <Card.Header>
-                            Order date: {this.getDate(order.orderDate)}
-                        </Card.Header>
-                        <Card.Body>
-                            <Container>
-                                <Row>
-                                    <Col md={2}>
-                                        <Image className="product-image" src={order.product.image}/>
-                                    </Col>
-                                    <Col>
-                                        <Stack>
-                                            <span><b>Product Name: </b>{order.product.name}</span>
-                                            <span><b>Price: </b>{order.product.sellPrice}</span>
-                                        </Stack>
-                                    </Col>
-                                    <Col md={1}>
-                                        <Button size="sm" value={order.id} onClick={this.getBill}>Get bill</Button>
-                                    </Col>
+                <Row className="bg-light mb-5 mt-5 p-5">
+                    {order.product && (
+                        <div className="card card-container">
+                            <img
+                                className="p-0"
+                                src={order.product.image}
+                            />
+                            <Row className="m-0">
+                                <Row className="mb-5 mr-0">
+                                    <a className="p-0 text-end" href={"/product/"+order.product.id} >Go to product page</a>
                                 </Row>
-                            </Container>
-                        </Card.Body>
-                    </Card>
-                )}
-            </Container>
+                                <Row>
+                                    Order date: {this.getDate(order.orderDate)}
+                                </Row>
+                                <Row>
+                                    Product name: {order.product.name}
+                                </Row>
+                                <Row>
+                                    Bill amount: Rs. {order.product.sellPrice} /-
+                                </Row>
+                            </Row>
+                        </div>
+                    )}
+                </Row>
+            </div>
         )
     }
 }

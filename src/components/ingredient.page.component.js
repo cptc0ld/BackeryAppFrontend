@@ -120,12 +120,8 @@ export default class IngredientPageComponent extends Component {
                 });
             },
             error => {
-                this.setState({
-                    content:
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString()
-                });
+                this.props.history.push('/page_not_found')
+                window.location.reload()
             }
         );
     }
