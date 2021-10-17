@@ -110,9 +110,9 @@ class ProductService {
     }
 
     addIngredients(name, costPrice, quantity, file) {
-        console.log(name, costPrice, file)
         const formData = new FormData()
         if (file !== null) {
+            console.log(name, costPrice, file)
             formData.append(
                 'image',
                 file,
@@ -120,21 +120,24 @@ class ProductService {
             )
         }
         if (name !== '') {
+            console.log(name, costPrice, file)
             formData.append(
                 'name',
                 name
             )
         }
         if (costPrice !== '') {
+            console.log(name, costPrice, file)
             formData.append(
                 'costPrice',
-                costPrice.toInt
+                costPrice
             )
         }
         if (quantity !== '') {
+            console.log(name, costPrice, file)
             formData.append(
                 'quantity',
-                quantity.toInt
+                quantity
             )
         }
         return axios
