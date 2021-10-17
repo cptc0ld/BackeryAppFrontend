@@ -1,4 +1,4 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import {Button, Card, Col, Container, Image, Row} from "react-bootstrap";
 import '../static/order.css';
 import Stack from "react-bootstrap/cjs/Stack";
@@ -34,6 +34,9 @@ export default class BillComponent extends Component {
         let {order, successful} = this.state
         return (
             <Container>
+                <Row className="text-center p-5 bg-dark rounded-2">
+                    <h1 className="text-light">Bill</h1>
+                </Row>
                 {successful && (
                     <Card>
                         <Card.Header>

@@ -12,7 +12,7 @@ export default class Home extends Component {
         this.openStore = this.openStore.bind(this)
         this.state = {
             error: "",
-            products: []
+            products: [],
         };
     }
 
@@ -29,12 +29,17 @@ export default class Home extends Component {
                 });
             },
             error => {
-                this.setState({
-                    error:
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString()
-                });
+                if(error.message === "401"){
+                    this.props.history.push('/login')
+                    window.location.reload()
+                }else{
+                    this.setState({
+                        error:
+                            (error.response && error.response.data) ||
+                            error.message ||
+                            error.toString()
+                    });
+                }
             }
         );
     }

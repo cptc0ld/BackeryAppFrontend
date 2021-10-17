@@ -19,6 +19,9 @@ import BillComponent from "./components/bill.component";
 import ProductsPageComponent from "./components/products.page.component";
 import Background from '../src/static/images/background.jpg'
 import '../src/static/main.css'
+import ProtectedRoute from "./utility/protected.routes";
+import AdminProtectedRoute from "./utility/admin.protected.routes";
+import PageNotFoundComponent from "./components/page.not.found.component";
 class App extends Component {
     constructor(props) {
         super(props);
@@ -103,17 +106,18 @@ class App extends Component {
 
                 <div className="container mt-3">
                     <Switch>
-                        <Route exact path={["/", "/home"]} component={Home}/>
+                        <ProtectedRoute exact path={["/", "/home"]} component={Home}/>
                         <Route exact path="/login" component={Login}/>
                         <Route exact path="/register" component={Register}/>
-                        <Route exact path="/profile" component={Profile}/>
-                        <Route path="/admin" component={BoardAdmin}/>
-                        <Route exact path={"/product"} component={ProductsPageComponent}/>
-                        <Route path="/product/:id" component={ProductPageComponent}/>
-                        <Route exact path="/ingredients" component={IngredientsPageComponent}/>
-                        <Route path="/ingredient/:id" component={IngredientPageComponent}/>
-                        <Route exact path="/order" component={OrderComponent}/>
-                        <Route exact path="/order/bill/:id" component={BillComponent}/>
+                        <ProtectedRoute exact path="/profile" component={Profile}/>
+                        <AdminProtectedRoute path="/admin" component={BoardAdmin}/>
+                        <ProtectedRoute exact path={"/product"} component={ProductsPageComponent}/>
+                        <ProtectedRoute path="/product/:id" component={ProductPageComponent}/>
+                        <AdminProtectedRoute exact path="/ingredients" component={IngredientsPageComponent}/>
+                        <AdminProtectedRoute path="/ingredient/:id" component={IngredientPageComponent}/>
+                        <ProtectedRoute exact path="/order" component={OrderComponent}/>
+                        <ProtectedRoute exact path="/order/bill/:id" component={BillComponent}/>
+                        <Route exact path="/page_not_found" component={PageNotFoundComponent}/>
                     </Switch>
                 </div>
             </div>

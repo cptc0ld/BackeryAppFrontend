@@ -1,4 +1,4 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import {Button, Card, Col, Container, Image, Row} from "react-bootstrap";
 import OrderService from "../services/order.service";
 import '../static/order.css';
@@ -40,6 +40,9 @@ export default class OrderComponent extends Component {
         let {orders} = this.state
         return (
             <Container>
+                <Row className="text-center p-5 bg-dark rounded-2">
+                    <h1 className="text-light">Orders</h1>
+                </Row>
                 {orders.map(order => (
                     <Card>
                         <Card.Header>

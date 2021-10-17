@@ -12,7 +12,10 @@ class UserService {
                 }
             })
             .catch(error => {
-                throw   Error(error.response.data.data.error_message)
+                if(error.response.data.status === 401){
+                    throw Error("401")
+                }
+                throw   Error(error.response.data.data.err)
             });
     }
 
