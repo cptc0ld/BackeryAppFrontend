@@ -1,6 +1,6 @@
 import {Component} from "react";
 import ProductService from "../services/product.service";
-import {Col, Container, Modal} from 'react-bootstrap';
+import {Col, Container, Modal, Row} from 'react-bootstrap';
 import AddProductFormComponent from "./add.product.form.component";
 import UploadImageComponent from "./upload.image.component";
 
@@ -57,12 +57,25 @@ export default class FormAddProduct extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
-                        {!this.state.successful ? (
-                            <AddProductFormComponent ingredientsPresent={this.state.ingredientsPresent}
-                                                     onSuccess={this.handleFormSuccess}/>
-                        ) : (
-                            <UploadImageComponent product={this.state.addedProduct}/>
-                        )}
+                        {this.state.ingredientsPresent.length === 0 ? (
+                            <Row>
+                                Add ingredients first
+                            </Row>
+                        ) : (() => {
+                                if (!this.state.successful) {
+                                    return (
+                                        <AddProductFormComponent ingredientsPresent={this.state.ingredientsPresent}
+                                                                 onSuccess={this.handleFormSuccess}/>
+                                    )
+                                } else {
+                                    return (
+                                        <UploadImageComponent product={this.state.addedProduct}/>
+                                    )
+                                }
+                            }
+                        )
+                        }
+
                     </Container>
                 </Modal.Body>
             </Modal>
