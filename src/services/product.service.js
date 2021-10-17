@@ -43,7 +43,7 @@ class ProductService {
             .get(API_URL + "product/" + ID, {headers: authHeader()})
             .then(response => {
                 if (response.data.status === 200) {
-                    return response.data.data.product;
+                    return response.data.data;
                 }
             })
             .catch(error => {
