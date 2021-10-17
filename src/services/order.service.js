@@ -17,6 +17,20 @@ class OrderService {
             });
     }
 
+    getOrderById(id) {
+        return axios
+            .get(API_URL + "get/" + id, {headers: authHeader()})
+            .then(response => {
+                if (response.data.status === 200) {
+                    return response.data.data.order;
+                }
+            })
+            .catch(error => {
+                throw Error(error.response.data.data.error_message)
+            });
+    }
+
+
     createOrder(productId) {
         let data = {
            productId: productId

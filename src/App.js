@@ -15,6 +15,7 @@ import IngredientsPageComponent from "./components/ingredients.page.component";
 import IngredientPageComponent from "./components/ingredient.page.component";
 import {Nav, Navbar, NavDropdown} from "react-bootstrap";
 import OrderComponent from "./components/order.component";
+import BillComponent from "./components/bill.component";
 
 class App extends Component {
     constructor(props) {
@@ -108,7 +109,8 @@ class App extends Component {
                         <Route path="/product/:id" component={ProductPageComponent}/>
                         <Route exact path="/ingredients" component={IngredientsPageComponent}/>
                         <Route path="/ingredient/:id" component={IngredientPageComponent}/>
-                        <Route path="/order" component={OrderComponent}/>
+                        <Route exact path="/order" component={OrderComponent}/>
+                        <Route exact path="/order/bill/:id" component={BillComponent}/>
                     </Switch>
                 </div>
             </div>

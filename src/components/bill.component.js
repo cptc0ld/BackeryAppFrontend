@@ -1,34 +1,28 @@
 import {Component} from "react";
 import {Button, Card, Col, Container, Image, Row} from "react-bootstrap";
-import OrderService from "../services/order.service";
 import '../static/order.css';
 import Stack from "react-bootstrap/cjs/Stack";
+import OrderService from '../services/order.service'
 
-export default class OrderComponent extends Component {
+export default class BillComponent extends Component {
 
     constructor(props) {
         super(props);
-        this.getBill = this.getBill.bind(this)
         this.state = {
-            orders: [],
+            order: {},
             successful: false
         };
     }
 
     componentDidMount() {
-        OrderService.getOrderHistory()
-            .then(response => {
+        OrderService.getOrderById(this.props.match.params.id).then(r => {
+                console.log(r)
                 this.setState({
-                    orders: response,
+                    order: r,
                     successful: true
                 })
-                console.log(response)
-            })
-    }
-
-    getBill(e) {
-        this.props.history.push('/order/bill/' + e.target.value)
-        window.location.reload()
+            }
+        )
     }
 
     getDate(date) {
@@ -37,10 +31,10 @@ export default class OrderComponent extends Component {
     }
 
     render() {
-        let {orders} = this.state
+        let {order, successful} = this.state
         return (
             <Container>
-                {orders.map(order => (
+                {successful && (
                     <Card>
                         <Card.Header>
                             Order date: {this.getDate(order.orderDate)}
@@ -64,7 +58,7 @@ export default class OrderComponent extends Component {
                             </Container>
                         </Card.Body>
                     </Card>
-                ))}
+                )}
             </Container>
         )
     }
