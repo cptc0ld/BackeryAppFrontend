@@ -57,25 +57,12 @@ export default class FormAddProduct extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
-                        {this.state.ingredientsPresent.length === 0 ? (
-                            <Row>
-                                Add ingredients first
-                            </Row>
-                        ) : (() => {
-                                if (!this.state.successful) {
-                                    return (
-                                        <AddProductFormComponent ingredientsPresent={this.state.ingredientsPresent}
-                                                                 onSuccess={this.handleFormSuccess}/>
-                                    )
-                                } else {
-                                    return (
-                                        <UploadImageComponent product={this.state.addedProduct}/>
-                                    )
-                                }
-                            }
-                        )
-                        }
-
+                        {!this.state.successful ? (
+                            <AddProductFormComponent ingredientsPresent={this.state.ingredientsPresent}
+                                                     onSuccess={this.handleFormSuccess}/>
+                        ) : (
+                            <UploadImageComponent product={this.state.addedProduct}/>
+                        )}
                     </Container>
                 </Modal.Body>
             </Modal>

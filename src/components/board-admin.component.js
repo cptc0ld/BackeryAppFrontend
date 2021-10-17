@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import FormAddProduct from "./add.product.component";
 import {Badge, Col, Container, ListGroup, Row} from "react-bootstrap";
 import FormAddIngredient from "./add.ingredient.component";
+import ProductService from "../services/product.service";
 
 export default class BoardUser extends Component {
 
@@ -15,7 +16,8 @@ export default class BoardUser extends Component {
         this.handleViewAllIngredients = this.handleViewAllIngredients.bind(this)
         this.state = {
             "showAddProduct": false,
-            "showAddIngredient": false
+            "showAddIngredient": false,
+            isIngredientsPresent: false
         }
     }
 
@@ -61,6 +63,30 @@ export default class BoardUser extends Component {
         window.location.reload();
     }
 
+    componentDidMount() {
+        ProductService.getIngredients().then(
+            response => {
+                if (response.length > 0) {
+                    this.setState({
+                        isIngredientsPresent: true
+                    });
+                } else {
+                    this.setState({
+                        isIngredientsPresent: false
+                    });
+                }
+            },
+            error => {
+                this.setState({
+                    content:
+                        (error.response && error.response.data) ||
+                        error.message ||
+                        error.toString()
+                });
+            }
+        );
+    }
+
     render() {
         return (
             <Container>
@@ -74,10 +100,12 @@ export default class BoardUser extends Component {
                             Add to inventory
                         </h5>
                         <ListGroup>
-                            <ListGroup.Item className="text-center" action onClick={this.handleAddProductShow}>
-                                Add product
-                            </ListGroup.Item>
-                            <ListGroup.Item className="text-center" action onClick={this.handleAddIngredientShow}>
+                            {this.state.isIngredientsPresent && (
+                                <ListGroup.Item className="text-center" action onClick={this.handleAddProductShow}>
+                                    Add product
+                                </ListGroup.Item>
+                            )}
+                            < ListGroup.Item className="text-center" action onClick={this.handleAddIngredientShow}>
                                 Add ingredient
                             </ListGroup.Item>
                         </ListGroup>
@@ -96,6 +124,7 @@ export default class BoardUser extends Component {
                         </ListGroup>
                     </Col>
                 </Row>
+
 
                 <FormAddProduct show={this.state.showAddProduct} onHide={this.handleAddProductHide}/>
                 <FormAddIngredient show={this.state.showAddIngredient} onHide={this.handleAddIngredientHide}/>
