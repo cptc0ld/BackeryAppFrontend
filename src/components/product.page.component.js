@@ -139,8 +139,11 @@ export default class ProductPageComponent extends Component {
     render() {
         let {product, isAdmin} = this.state
         return (
-            <Container className='p-4 bg-light border'>
-                <Row>
+            <Container>
+                <Row className="text-center p-5 bg-dark rounded-2">
+                    <h1 className="text-light">Products</h1>
+                </Row>
+                <Row className='bg-light mb-5 mt-5 p-5'>
                     <Col md={{span: 4, offset: 1}}>
                         <Image thumbnail src={product.image}/>
                     </Col>

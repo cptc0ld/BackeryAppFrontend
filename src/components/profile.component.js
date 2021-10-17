@@ -14,8 +14,11 @@ export default class Profile extends Component {
     render() {
         const {currentUser} = this.state;
         return (
-            <Container className="bg-light p-5 m-5">
-                <Row className="justify-content-center">
+            <Container>
+                <Row className="text-center p-5 bg-dark rounded-2">
+                    <h1 className="text-light">User Profile</h1>
+                </Row>
+                <Row className="justify-content-center mb-5 mt-5 p-5 bg-light">
                     <Col md={2} className="m-3 align-content-center">
                         <img
                             src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
@@ -26,7 +29,7 @@ export default class Profile extends Component {
                     <Col>
                         <Row>
                             <h2>
-                                <strong>User Profile</strong>
+                                <strong>My Profile</strong>
                             </h2>
                         </Row>
                         <Row>

@@ -149,8 +149,11 @@ export default class IngredientPageComponent extends Component {
     render() {
         let {product, isAdmin, editProduct} = this.state
         return (
-            <Container className='p-4 bg-light border'>
-                <Row>
+            <Container>
+                <Row className="text-center p-5 bg-dark rounded-2">
+                    <h1 className="text-light">Ingredients</h1>
+                </Row>
+                <Row className="bg-light mb-5 mt-5 p-5">
                     <Col md={{span: 4, offset: 1}}>
                         <Image thumbnail src={product.image}/>
                     </Col>
@@ -166,9 +169,9 @@ export default class IngredientPageComponent extends Component {
                                             {isAdmin && (
                                                 <Stack className="mt-2" direction="horizontal" gap={3}>
                                                     <Button variant="primary" onClick={this.editProductClicked}>Edit
-                                                        product</Button>
+                                                        ingredient</Button>
                                                     <Button variant="danger" onClick={this.deleteProduct}>Delete
-                                                        product</Button>
+                                                        ingredient</Button>
                                                 </Stack>
                                             )}
                                         </Stack>
@@ -189,7 +192,7 @@ export default class IngredientPageComponent extends Component {
                                             {isAdmin && (
                                                 <Stack className="mt-2" direction="horizontal" gap={3}>
                                                     <Button variant="success" onClick={this.updateProject}>Update
-                                                        product</Button>
+                                                        ingredient</Button>
                                                     <Button variant="danger" onClick={this.dontUpdate}>Go back</Button>
                                                 </Stack>
                                             )}

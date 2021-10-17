@@ -1,15 +1,16 @@
 .product-card{
-    height: 450px;
-    width: 350px;
+    height: 400px;
+    margin: 0;
+    width: 300px;
 }
 
 .product-card-image{
-    height: 200px;
+    height: 150px;
 }
 
 .product-card-body{
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
     height: 150px;
     overflow-wrap: break-word;
     overflow-y: hidden;

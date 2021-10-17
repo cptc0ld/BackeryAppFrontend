@@ -63,9 +63,12 @@ export default class BoardUser extends Component {
 
     render() {
         return (
-            <Container className="mt-5 p-5 bg-light">
-                <h1 className="text-center pb-5">Manage Inventory</h1>
-                <Row className="justify-content-center mb-5">
+            <Container>
+                <Row className="text-center p-5 bg-dark rounded-2">
+                    <h1 className="text-light">Admin panel</h1>
+                </Row>
+                <Row className="justify-content-center mb-5 mt-5 p-5 bg-light">
+                    <h1 className="text-center pb-5">Manage Inventory</h1>
                     <Col md={5} className="p-5">
                         <h5 className="text-center">
                             Add to inventory

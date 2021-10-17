@@ -1,7 +1,14 @@
+.main-page {
+    min-height: 100vh;
+    background: #B4C2AC
+}
+
 .pointer {
     cursor: pointer;
     transition: 0.3s;
+    white-space: nowrap
 }
+
 .pointer:hover {
     background: lightgray;
 }

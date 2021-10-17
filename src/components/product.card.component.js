@@ -26,7 +26,7 @@ export default class ProductCardComponent extends Component {
     render() {
         const {product} = this.props
         return (
-            <Card className="pointer product-card" onClick={this.onTrigger}>
+            <Card className="pointer product-card mb-4 mt-2" onClick={this.onTrigger}>
                 <Card.Img className="product-card-image" variant="top" src={product.image}/>
                 <Card.Body>
                     <Container className="product-card-body">

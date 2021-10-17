@@ -1,29 +1,29 @@
 import React, {Component} from "react";
 
-import ProductService from "../services/product.service";
-import {Col, Container, Row} from "react-bootstrap";
-import IngredientCardComponent from "./ingredient.card.component";
+import UserService from "../services/user.service";
+import {Button, Card, Col, Container, Row} from "react-bootstrap";
+import ProductCardComponent from "./product.card.component";
 
-export default class IngredientsPageComponent extends Component {
+export default class ProductsPageComponent extends Component {
     constructor(props) {
         super(props);
-        this.handleIngredientClick = this.handleIngredientClick.bind(this)
+        this.handleProductClick = this.handleProductClick.bind(this)
         this.state = {
             error: "",
-            ingredients: []
+            products: []
         };
     }
 
-    handleIngredientClick(e) {
-        this.props.history.push(`/ingredient/${e}`);
+    handleProductClick(e) {
+        this.props.history.push(`/product/${e}`);
         window.location.reload();
     }
 
     componentDidMount() {
-        ProductService.getIngredients().then(
+        UserService.getPublicContent().then(
             response => {
                 this.setState({
-                    ingredients: response
+                    products: response
                 });
             },
             error => {
@@ -39,15 +39,14 @@ export default class IngredientsPageComponent extends Component {
 
     render() {
         return (
-            <Container>
+            <Container className="bg-light">
                 <Row className="text-center p-5 bg-dark rounded-2">
-                    <h1 className="text-light">Ingredients</h1>
+                    <h1 className="text-light">Products</h1>
                 </Row>
-
                 <Row className="bg-light mb-5 mt-5 p-5">
-                    {this.state.ingredients.map((ingredient) => (
+                    {this.state.products.map((product) => (
                         <Col>
-                            <IngredientCardComponent ingredient={ingredient} onClick={this.handleIngredientClick}/>
+                            <ProductCardComponent product={product} onClick={this.handleProductClick}/>
                         </Col>
                     ))}
                 </Row>

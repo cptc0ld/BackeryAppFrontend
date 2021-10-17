@@ -13,10 +13,12 @@ import BoardAdmin from "./components/board-admin.component";
 import ProductPageComponent from "./components/product.page.component";
 import IngredientsPageComponent from "./components/ingredients.page.component";
 import IngredientPageComponent from "./components/ingredient.page.component";
-import {Nav, Navbar, NavDropdown} from "react-bootstrap";
+import {Container, Nav, Navbar, NavDropdown, Row} from "react-bootstrap";
 import OrderComponent from "./components/order.component";
 import BillComponent from "./components/bill.component";
-
+import ProductsPageComponent from "./components/products.page.component";
+import Background from '../src/static/images/background.jpg'
+import '../src/static/main.css'
 class App extends Component {
     constructor(props) {
         super(props);
@@ -47,12 +49,12 @@ class App extends Component {
         const {currentUser, showAdminBoard} = this.state;
 
         return (
-            <div>
+            <div className="main-page">
                 <Navbar bg="dark" variant="dark">
                     <Nav className="container-fluid">
                         <Nav>
                             <Nav.Item className="ms-4">
-                                <Navbar.Brand as={Link} to="/">bezKoder</Navbar.Brand>
+                                <Navbar.Brand as={Link} to="/">221b Baker Street</Navbar.Brand>
                             </Nav.Item>
                             <Nav.Item className="ms-4">
                                 <Nav.Link as={Link} to="/home">Home</Nav.Link>
@@ -106,6 +108,7 @@ class App extends Component {
                         <Route exact path="/register" component={Register}/>
                         <Route exact path="/profile" component={Profile}/>
                         <Route path="/admin" component={BoardAdmin}/>
+                        <Route exact path={"/product"} component={ProductsPageComponent}/>
                         <Route path="/product/:id" component={ProductPageComponent}/>
                         <Route exact path="/ingredients" component={IngredientsPageComponent}/>
                         <Route path="/ingredient/:id" component={IngredientPageComponent}/>
