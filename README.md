@@ -7,7 +7,12 @@ Backend for this project is published on https://github.com/cptc0ld/BackeryAppBa
 
 ## Installation and Setup Instructions
 
-#### Example:
+## Install by Docker
+
+    - docker-compose build   
+    - docker-compose up
+    
+#### Install:
 
 Clone down this repository. You will need `node` and `npm` installed globally on your machine.
 
